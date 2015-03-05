@@ -1,0 +1,14 @@
+{
+    "name": "vidmed/RussianPost",
+    "description": "Inegration (SDK) with RussianPost (Почта России) Api",
+    "keywords": ["RussianPost","sdk","integration"],
+    "authors": [
+        {
+            "name": "vidmed",
+            "email": "mr.vidmed@gmail.com"
+        }
+    ],
+    "require": {
+      "php":">=5.3.0"
+    }
+}
