@@ -32,6 +32,14 @@ class RussianPostSdk
 
     }
 
+    /**
+     * @param $from_index
+     * @param $to_index
+     * @param $weight
+     * @param $ob_cennost_rub
+     * @return mixed
+     * @throws Exception
+     */
     static public function calc($from_index, $to_index, $weight, $ob_cennost_rub)
     {
         $params = [
@@ -43,6 +51,12 @@ class RussianPostSdk
         return self::call(__FUNCTION__,$params);
     }
 
+    /**
+     * @param $method
+     * @param $params
+     * @return mixed
+     * @throws Exception
+     */
     static private function call($method , $params)
     {
         if(!extension_loaded('curl')){
@@ -78,7 +92,7 @@ class RussianPostSdk
                 throw new Exception("10000 server error");
             }
 
-            $data = json_decode($response, $assoc=true);
+            $data = json_decode($response, true);
 
             if (isset($data['msg']['type']) && $data['msg']['type'] == "error") {
 //                throw new Exception(print_r($data, true));
@@ -90,6 +104,23 @@ class RussianPostSdk
             throw new Exception($e->getMessage(), $e->getCode(), $e);
         }
 
+    }
+
+    public static function alternativeCalc($from_index, $to_index, $weight, $ob_cennost_rub)
+    {
+        $url  = 'http://api.print-post.com/api/sendprice/v2/?weight=' . $weight . '&summ='. $ob_cennost_rub . '&from_index=' . $from_index . '&to_index=' . $to_index;
+        if( $curl = curl_init() ) {
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+            $out = curl_exec($curl);
+
+            $data = json_decode($out, true);
+            curl_close($curl);
+
+            return $data;
+        } else{
+            return 'error';
+        }
     }
 
 }
