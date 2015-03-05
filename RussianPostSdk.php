@@ -82,7 +82,7 @@ class RussianPostSdk
 
             if (isset($data['msg']['type']) && $data['msg']['type'] == "error") {
 //                throw new Exception(print_r($data, true));
-                throw new Exception($data['msg']['text']);
+                throw new Exception('ERROR! ' . $data['msg']['text']);
             }
 
             return $data;
